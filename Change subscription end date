@@ -1,2 +1,4 @@
+//The ability to edit the end date of Subscription was already added to the Active Admin
 s = Subscription.find(974)
 s.update(end_date: Time.zone.parse("2020-08-15"))
+
