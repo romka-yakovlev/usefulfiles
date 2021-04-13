@@ -1,0 +1,4359 @@
+schema {
+  query: ClientQuery
+  mutation: ClientMutation
+}
+
+"""
+Direct the client to resolve this field locally, either from the cache or local resolvers.
+"""
+directive @client(
+  """
+  When true, the client will never use the cache for this value. See
+  https://www.apollographql.com/docs/react/essentials/local-state/#forcing-resolvers-with-clientalways-true
+  """
+  always: Boolean
+) on FIELD | FRAGMENT_DEFINITION | INLINE_FRAGMENT
+
+"""
+Export this locally resolved field as a variable to be used in the remainder of this query. See
+https://www.apollographql.com/docs/react/essentials/local-state/#using-client-fields-as-variables
+"""
+directive @export(
+  """The variable name to export this field as."""
+  as: String!
+) on FIELD
+
+"""
+Specify a custom store key for this result. See
+https://www.apollographql.com/docs/react/advanced/caching/#the-connection-directive
+"""
+directive @connection(
+  """Specify the store key."""
+  key: String!
+
+  """
+  An array of query argument names to include in the generated custom store key.
+  """
+  filter: [String!]
+) on FIELD
+
+"""The query root of this schema"""
+type ClientQuery {
+  allMembers(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    fullName: String
+    cities: [String]
+    groupClassSessionIds: [ID]
+    locationIds: [ID]
+    faceBookFriendsOnly: Boolean = false
+  ): FriendTileConnection
+  chatAccountInfos(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    userJIDS: [String]!
+  ): ChatAccountConnection
+  chatAuthInfo: ChatAuthInfoType
+  chatGroupInfo(roomJid: String, publicUrlPath: String): ChatGroup
+  citiesList(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    city: String
+  ): CityTileConnection
+  classesForBooking(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    useClientLocation: Boolean!
+
+    """Please use startTime argument instead"""
+    beginningOfDayTimestamp: Int
+    startTime: Int
+
+    """Amount of minutes from startTime. Falls back to 24h * 60 minutes"""
+    timeLimit: Int
+    locationId: ID
+    guruId: ID
+    searchQuery: String
+    fitnessActivityIds: [ID]
+    friendsFavorites: Boolean = false
+  ): GroupClassSessionBaseConnection
+  classesForChats(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    searchQuery: String
+  ): GroupClassSessionChatConnection
+  classmates(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    fullName: String
+    facebookFriendsOnly: Boolean = false
+    cities: [String]
+    groupClassSessionIds: [ID]
+    locationIds: [ID]
+  ): FriendTileConnection
+  clientConfirmationStudios(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    clientConfirmationID: ID!
+  ): StudioConnection
+  clientConfirmations(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    status: String = "all"
+  ): ClientConfirmationConnection
+  clientGroupClassSession(groupClassSessionId: ID!): ClientGroupClassSession
+  clientGroupClassSessions(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    beginningOfDayTimestamp: Int!
+    type: String = "upcoming"
+    searchQuery: String
+    instructorId: ID
+  ): GroupClassSessionBaseConnection
+  contacts(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    contactJid: String
+  ): ContactTypeConnection
+
+  """Country List"""
+  countryList: [String]
+  facebookFriends(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+  ): FriendTileConnection
+  fitnessActivitiesList(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    name: String
+  ): FitnessActivityConnection
+  friends(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    fullName: String
+    cities: [String]
+    groupClassSessionIds: [ID]
+    locationIds: [ID]
+    guruId: ID
+    guruUserId: ID
+  ): FriendTileConnection
+  friendsClasses(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    useClientLocation: Boolean
+  ): GroupClassSessionBaseConnection
+  friendsForChats(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    name: String
+  ): FriendChatAccountTypeConnection
+  friendshipRequests(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    direction: String = "incoming"
+    status: String
+  ): FriendshipConnection
+
+  """Get Country, City, ZipCode by latitude and longitude"""
+  geocode(latitude: String!, longitude: String!): GeocodeType
+  groupClassSessionsList(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """upcoming or past"""
+    type: String!
+    name: String
+  ): GroupClassSessionBaseConnection
+
+  """Guru Profile"""
+  guruProfile(guruId: ID!): GuruProfile
+
+  """FG Guru Profile"""
+  guruUserProfile(userId: ID!): GuruUserProfile
+  gurusForChats(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    name: String
+  ): ChatAccountConnection
+  instructorsForBooking(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    fullName: String
+    friendsFavorites: Boolean = false
+    fitnessActivityIds: [ID]
+  ): BaseGuruTileConnection
+  locationsForBooking(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    useClientLocation: Boolean!
+    searchQuery: String
+    fitnessActivityIds: [ID]
+    friendsFavorites: Boolean = false
+  ): BookingLocationConnection
+  locationsList(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    name: String
+    includeAttendsCount: Boolean = false
+  ): LocationTileConnection
+  myChatGroups(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    name: String
+  ): ChatGroupConnection
+  myGurus(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    fullName: String
+    friendsFavorites: Boolean = false
+    includeAll: Boolean = true
+  ): BaseGuruTileConnection
+  phoneNumberConfirmations(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+  ): PhoneNumberConfirmationConnection
+
+  """Client Profile"""
+  profile: ClientUser
+  quiz: [QuizSection]
+  recommendedConnections(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+  ): FriendTileConnection
+  rewardCounts: RewardCounts
+  rewards(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Available scopes: available, expired, redeemed"""
+    scope: String
+  ): RewardConnection
+
+  """Client Settings"""
+  settings: ClientSettings
+
+  """Studio Profile"""
+  studioProfile(locationId: ID!): Studio
+
+  """User Profile"""
+  userProfile(userId: ID!): UserProfile
+
+  """Weekly workout goals"""
+  weeklyWorkouts(startDate: Date!, weeks: Int): [WorkoutGoal]
+}
+
+"""Client Settings"""
+type ClientSettings {
+  friendsUpcomingClassesExceptionList(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+    included: Boolean = true
+    name: String
+  ): BasicUserInfoConnection
+  myUpcomingClassesExceptionList(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+    included: Boolean = true
+    name: String
+  ): BasicUserInfoConnection
+  privacySettings: [PrivacySetting!]!
+  pushNotifications: [PushNotification!]!
+}
+
+"""Push Notification"""
+type PushNotification {
+  enabled: Boolean!
+  pushType: String!
+  title: String!
+}
+
+"""Privacy Setting"""
+type PrivacySetting {
+  enabled: Boolean!
+  keyName: String!
+  title: String!
+}
+
+"""The connection type for BasicUserInfo."""
+type BasicUserInfoConnection {
+  """A list of edges."""
+  edges: [BasicUserInfoEdge]
+
+  """A list of nodes."""
+  nodes: [BasicUserInfo]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+}
+
+"""An edge in a connection."""
+type BasicUserInfoEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: BasicUserInfo
+}
+
+"""Basic User Info"""
+type BasicUserInfo {
+  """Avarar"""
+  avatar: Image
+
+  """First Name"""
+  firstName: String!
+  id: ID
+
+  """Last Name"""
+  lastName: String!
+}
+
+"""Image Type"""
+type Image {
+  id: ID!
+  mediumUrl: String
+  originalUrl: String
+  thumbUrl: String
+}
+
+"""Quiz Section"""
+type QuizSection {
+  image: Image
+  key: String!
+  percentAnsweredQuestions: Int!
+  questions: [QuizQuestion!]
+  subTitle: String!
+  title: String!
+}
+
+"""Quiz Question"""
+type QuizQuestion {
+  answers: [QuizAnswer!]
+  description: String
+  footer: String
+  isAnswered: Boolean!
+  key: String!
+  shortDescription: String
+  shouldBeAtSurvey: Boolean!
+  subTitle: String
+
+  """Question Type: single, multiple, one_of_two or carousel"""
+  title: String!
+  type: String!
+}
+
+"""Quiz Answer"""
+type QuizAnswer {
+  id: Int!
+  isSelected: Boolean!
+  title: String!
+}
+
+"""Current Client Model"""
+type ClientUser {
+  aboutMe: String
+  avatar: Image
+  birthday: Date
+  city: String
+  classesTaken: Int
+  country: String
+  email: String
+  facebookFriendsCount: Int
+
+  """Facebook Connection Status: not_connected, connected, active"""
+  fbStatus: String
+  firstName: String
+  friendsCount: Int
+  gender: String
+  hasEmailConfirmed: Boolean
+  hasPhoneConfirmed: Boolean
+  id: ID!
+  intercomAuthtoken(platform: PlatformEnum!): String
+  isFinishedRegistration: Boolean
+  lastName: String
+  messageIndicator: String
+  myStudios(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): StudioConnection
+  publicProfile: [ProfileInfo!]
+
+  """signup update_location quiz"""
+  registrationSteps: [String!]
+  zipCode: String
+}
+
+"""Represents Date Value as string (YYYY-MM-DD)"""
+scalar Date
+
+"""The connection type for Studio."""
+type StudioConnection {
+  """A list of edges."""
+  edges: [StudioEdge]
+
+  """A list of nodes."""
+  nodes: [Studio]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type StudioEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: Studio
+}
+
+"""Studio Type"""
+type Studio {
+  attendsUntilReward: Int
+  canBeBookedFree: Boolean
+  classesTaken(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): GroupClassSessionBaseConnection
+  description: String
+  friends(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): FriendTileConnection
+  hasFreeClasses: Boolean
+  id: ID!
+  keyTraits(maxOnly: Boolean = true, key: String): [KeyTrait!]
+  location: String
+  logo: Image
+  name: String
+  phoneNumber: String
+  website: String
+}
+
+"""The connection type for FriendTile."""
+type FriendTileConnection {
+  """A list of edges."""
+  edges: [FriendTileEdge]
+
+  """A list of nodes."""
+  nodes: [FriendTile]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type FriendTileEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: FriendTile
+}
+
+"""Friend's short information"""
+type FriendTile {
+  activities: [String!]
+  avatar: Image
+  chatAccount: ChatAccount
+  city: String
+  commonClassesCount: Int
+  commonFriendsCount: Int
+  firstName: String
+  friendshipStatus: Int
+  id: ID
+  isFacebookFriend: Boolean
+  isMember: Boolean
+  lastName: String
+  latestCommonClassSession: GroupClassSessionBase
+  personalDetails: [String!]
+  similarityPercent: Int
+}
+
+"""Chat Account"""
+type ChatAccount {
+  accountType: String
+  avatar: Image
+  firstName: String
+  jid: String!
+  lastName: String
+  userId: ID
+}
+
+"""Class Base type"""
+type GroupClassSessionBase {
+  """
+  Status whether class is booked, can be booked, or can be booked for free
+  """
+  bookingStatus: BookingStatusEnum
+
+  """How many hours before class client can cancel class without fee"""
+  cancelationTime: Int
+
+  """Location City"""
+  city: String
+  classType: ClassTypeEnum
+
+  """Class Clients"""
+  clients: [BasicUserInfo!]
+
+  """Distance from current client location to studio location"""
+  distance: Float
+
+  """Class duration in minutes"""
+  duration: Int
+  fitnessActivities: [FitnessActivity!]
+
+  """How many FitGrid friends in this class"""
+  friendsCount: Int
+
+  """Class ID"""
+  id: ID!
+
+  """Class Instructors"""
+  instructors: [ShortGuruInfo!]
+
+  """Is this class booked by your?"""
+  isBooked: Boolean
+
+  """Location Name"""
+  locationName: String
+
+  """Class Name"""
+  name: String!
+
+  """Number of available spots for booking"""
+  spotsAvailable: Int!
+
+  """Class start time"""
+  startTimeTimestamp: Int
+
+  """Indicates if the class is scheduled or completed"""
+  status: String
+  studioLogo: Image
+}
+
+"""Allowed booking statuses"""
+enum BookingStatusEnum {
+  """Class is already booked"""
+  booked
+
+  """Class can be booked"""
+  can_be_booked
+
+  """Class can not be booked"""
+  can_not_be_booked
+
+  """Class can be booked for free"""
+  can_be_booked_for_free
+
+  """Class is full"""
+  no_spots_available
+}
+
+"""Guru's short information"""
+type ShortGuruInfo {
+  activities: [String!]
+  avatar: Image
+  cities: [String!]
+  firstName: String
+  id: ID!
+  lastName: String
+}
+
+enum ClassTypeEnum {
+  """In Person"""
+  in_person
+
+  """FitGrid Live"""
+  fitgrid_live
+}
+
+"""Fitness activity info"""
+type FitnessActivity {
+  id: ID!
+  isActive: Boolean!
+  name: String!
+  order: Int
+}
+
+"""The connection type for GroupClassSessionBase."""
+type GroupClassSessionBaseConnection {
+  """A list of edges."""
+  edges: [GroupClassSessionBaseEdge]
+
+  """A list of nodes."""
+  nodes: [GroupClassSessionBase]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type GroupClassSessionBaseEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: GroupClassSessionBase
+}
+
+type KeyTrait {
+  counts: Int
+  name: String
+  percent: Float
+  type: String
+}
+
+"""Profile Info"""
+type ProfileInfo {
+  title: String!
+  values: [String!]!
+}
+
+enum PlatformEnum {
+  """iOS Platform"""
+  ios
+
+  """Android Platform"""
+  android
+}
+
+"""Guru's profile information"""
+type GuruProfile {
+  activities: [String!] @deprecated(reason: "Use fitnessActivities field instead")
+  avatar: Image
+  bio: String
+  certifications: [String!]
+  chatAccount: ChatAccount
+  cities: [String!]
+  firstName: String
+  fitnessActivities: [FitnessActivity!]
+  friends(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): BasicUserInfoConnection
+  id: ID!
+  isMessagingAvailable: Boolean
+  keyTraits(maxOnly: Boolean = true, key: String): [KeyTrait!]
+  lastName: String
+  socials: [SocialLink!]
+  studioName: String
+  visitsCount: Int
+}
+
+"""Link to Social Network"""
+type SocialLink {
+  isActive: Boolean
+  platform: String
+  url: String
+}
+
+"""Guru's profile information"""
+type GuruUserProfile {
+  activities: [String!]
+  avatar: Image
+  bio: String
+  certifications: [String!]
+  cities: [String!]
+  firstName: String
+  friends(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): BasicUserInfoConnection
+  guruProfiles: [GuruStudioInfo!]
+  id: ID!
+  keyTraits(maxOnly: Boolean = true, key: String, fitnessNetworkId: ID): [KeyTrait!]
+  lastName: String
+  socials: [SocialLink!]
+  visitsCount: Int
+}
+
+"""Guru in Studio Info"""
+type GuruStudioInfo {
+  chatAccount: ChatAccount
+  id: ID!
+  studioName: String
+}
+
+"""User's profile information"""
+type UserProfile {
+  aboutMe: String
+  avatar: Image
+  chatAccount: ChatAccount
+  city: String
+  commonFBFriends(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): FriendTileConnection
+  commonFriends(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): FriendTileConnection
+  firstName: String
+  friendshipStatus: Int
+  groupClassSessions(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+    type: String
+  ): GroupClassSessionBaseConnection
+  id: ID!
+  isFacebookFriend: Boolean
+  lastName: String
+  messageIndicator: String
+  publicProfile: [ProfileInfo!]
+  similarityPercent: Float
+}
+
+"""Geocoder Response"""
+type GeocodeType {
+  city: String
+  country: String
+  latitude: String
+  longitude: String
+  zipCode: String
+}
+
+"""Client Workouts and Goal for a week"""
+type WorkoutGoal {
+  goal: Int
+  weekStartDate: Date
+  workouts: [Workout!]
+  workoutsCount: Int
+}
+
+"""Client Workout"""
+type Workout {
+  date: Date!
+  duration: Int!
+  groupClassSessionId: ID
+  id: ID!
+  location: String
+  sourceType: String!
+  workoutType: String
+}
+
+"""Group Class Session"""
+type ClientGroupClassSession {
+  """
+  Status whether class is booked, can be booked, or can be booked for free
+  """
+  bookingStatus: BookingStatusEnum
+
+  """How many hours before class client can cancel class without fee"""
+  cancelationTime: Int
+
+  """Location City"""
+  city: String
+  classProfile: [String!]
+  classType: ClassTypeEnum
+  clients(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): FriendTileConnection
+  description: String
+
+  """Distance from current client location to studio location"""
+  distance: Float
+
+  """Class duration in minutes"""
+  duration: Int
+  fitnessActivities: [FitnessActivity!]
+
+  """How many FitGrid friends in this class"""
+  friendsCount: Int
+
+  """Class ID"""
+  id: ID!
+
+  """Class Instructors"""
+  instructors: [ShortGuruInfo!]
+
+  """Is this class booked by your?"""
+  isBooked: Boolean
+
+  """Location Name"""
+  locationName: String
+
+  """Class Name"""
+  name: String!
+
+  """Number of available spots for booking"""
+  spotsAvailable: Int!
+
+  """Class start time"""
+  startTimeTimestamp: Int
+
+  """Indicates if the class is scheduled or completed"""
+  status: String
+  studioLogo: Image
+}
+
+"""The connection type for ClientConfirmation."""
+type ClientConfirmationConnection {
+  """A list of edges."""
+  edges: [ClientConfirmationEdge]
+
+  """A list of nodes."""
+  nodes: [ClientConfirmation]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type ClientConfirmationEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: ClientConfirmation
+}
+
+"""Clients Confirmation"""
+type ClientConfirmation {
+  email: String!
+  errors: [String!]!
+  id: ID!
+  isConfirmed: Boolean
+  isDuplicate: Boolean
+  isPrimary: Boolean!
+  studios: [Studio!]!
+  totalStudiosCount: Int
+}
+
+"""The connection type for Friendship."""
+type FriendshipConnection {
+  """A list of edges."""
+  edges: [FriendshipEdge]
+
+  """A list of nodes."""
+  nodes: [Friendship]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type FriendshipEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: Friendship
+}
+
+"""Friendship of two users"""
+type Friendship {
+  avatar: Image
+  commonClass: GroupClassSession
+  createdAtTimestamp: Int
+  firstName: String
+  friendFullName: String
+  friendUserId: ID
+  id: ID!
+  isRequester: Boolean
+  lastName: String
+  message: String
+  status: Int
+  userId: ID
+}
+
+"""Session of Group Class"""
+type GroupClassSession {
+  activeClients(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    ageRange: [Int]
+    attendsNumberRange: [Int]
+    gender: String
+    fullName: String
+    order: [String]
+    quizQuestion: String
+    quizAnswerId: ID
+    pain: ID
+  ): ClientConnection
+  activeReservations(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    order: [String]
+  ): ReservationConnection
+  capacity: Int
+  description: String
+  endTime: String!
+  endTimeTimestamp: Int
+  errors: [Error]
+  fitnessNetwork: FitnessNetwork
+  groupClass: GroupClass
+  guru: Guru
+  gurus(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+  ): GuruConnection
+  hasSubstitute: Boolean
+  id: ID!
+  isZoomEnabled: Boolean
+  location: Location
+  name: String!
+
+  """
+  Global IDs of zoom-enabled GroupClassSessions that overlap with current one.
+  """
+  overlappingSessionIds: [ID]
+  overlappingSessionsCount: Int
+  startTime: String!
+  startTimeTimestamp: Int
+  status: String!
+  totalBooked: Int
+  zoomJoinUrl: String
+  zoomMeetingId: String
+  zoomParticipantsPulledAt: String
+  zoomPassword: String
+  zoomStartUrl: String
+  zoomUser: ZoomUser
+  zoomUserId: ID
+}
+
+type ZoomUser {
+  """Indicates whether this Zoom user is able to schedule Zoom meetings."""
+  canSchedule: Boolean
+  createdAt: DateTime
+  createdAtTimestamp: Int
+
+  """User's email in Zoom."""
+  email: String
+  firstName: String
+  groupClassSessions(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+  ): GroupClassSessionConnection
+  id: ID!
+
+  """
+  Indicates whether this Zoom user is currently being used for scheduling Zoom meetings.
+  """
+  isEnabled: Boolean
+
+  """
+  Indicates whether this Zoom user has been selected to schedule Zoom meetings.
+  """
+  isSelected: Boolean
+  lastName: String
+
+  """
+  Zoom user's plan type. Possible values are 'basic', 'licensed', 'on_prem'.
+  """
+  licenseType: String
+
+  """Status of Zoom user's account. Possible values are TBD."""
+  status: String
+
+  """
+  Displays whether Zoom user is verified or not by Zoom. Possible values are 'pending', 'confirmed'
+  """
+  verified: String
+  zoomId: String
+}
+
+scalar DateTime
+
+"""The connection type for GroupClassSession."""
+type GroupClassSessionConnection {
+  """A list of edges."""
+  edges: [GroupClassSessionEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type GroupClassSessionEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: GroupClassSession
+}
+
+"""Error"""
+type Error {
+  field: String!
+  messages: [String]!
+}
+
+"""The connection type for Reservation."""
+type ReservationConnection {
+  """A list of edges."""
+  edges: [ReservationEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type ReservationEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: Reservation
+}
+
+"""Reservation"""
+type Reservation {
+  client: Client!
+  clientAttendsCount: Int
+  errors: [Error]
+  groupClassSession: GroupClassSession!
+  guru: Guru
+  id: ID!
+  isCheckedIn: Boolean
+  isClientBirthdaySameDay: Boolean
+  isFirstFitnessNetworkVisit: Boolean
+  isFirstVisit: Boolean
+  isZoomAttended: Boolean
+  isZoomNotified: Boolean
+  paymentType: String
+  priorVisitsCount: Int
+  status: String!
+  zoomJoinUrl: String
+}
+
+"""Client"""
+type Client {
+  actualAttendancePerMonth: Int
+  age: Int
+  attendsCount: Int
+  avatar: Image
+  birthDate: DateTime
+  birthDateTimestamp: Int
+  city: String
+  contactPhoneNumber: String
+  duplicateAttendsCount: Int
+  email: String
+  errors: [Error!]
+  favoriteClass: GroupClass
+  favoriteInstructor: Guru
+  firstAppointmentAt: DateTime
+  firstAppointmentAtTimestamp: DateTime
+  firstName: String
+  firstVisitAt: DateTime
+  firstVisitAtTimestamp: DateTime
+  fitnessActivities: [String!]
+  fitnessFrequency: String
+  fitnessNetwork: FitnessNetwork
+  gender: String
+  goals: [String!]
+  hasBirthdayToday: Boolean
+  hasClassAppAccount: Boolean!
+  hasDuplicateClients: Boolean
+  hasPains: Boolean
+
+  """Client ID"""
+  id: ID!
+  imageUrl: String
+  industry: String
+  injuries: [String!]
+  instructorsTreatment: String
+  lastClass: GroupClassSession
+  lastName: String
+  maritalStatus: String
+  mbId: String
+  mostRelevantTask: Personas__Task
+  motivations: [String!]
+  notes(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+    guruId: ID
+    type: String
+  ): NoteConnection
+  notesCount: Int
+  occupation: String
+  otherInterests: [String!]
+  outsideInterests: [String!]
+  personalSpace: String
+  profileColor: String
+  selfIntroduction: [String!]
+  user: User
+}
+
+"""Personas task information"""
+type Personas__Task {
+  client: Client!
+  createdAt: DateTime!
+  createdAtTimestamp: Int!
+  explanation: String
+  id: ID!
+  location: Location!
+  message: Personas__Message
+  segment: Segment!
+  segmentRecommendation: SegmentRecommendation
+  status: String!
+  statusChangedAt: DateTime
+  statusChangedAtTimestamp: Int
+  statusChangedBy: Profile
+}
+
+"""Personas Profile Type"""
+union Profile = Admin | Guru | User
+
+"""Admin"""
+type Admin {
+  adminType: String
+  createdAt: DateTime
+  email: String
+  errors: [Error]
+  firstName: String
+  fitnessNetwork: FitnessNetwork
+  id: ID!
+  isActive: Boolean
+  isChatEnabled: Boolean
+  isManager: Boolean
+  isOwner: Boolean
+  isTaskListEnabled: Boolean
+  lastName: String
+  phoneNumber: String
+  title: String
+  user: User
+}
+
+"""Fitness Netowrk details"""
+type FitnessNetwork {
+  activatedAt: DateTime
+  activatedAtTimestamp: Int
+  activationTime: DateTime
+  activationTimestamp: Int
+  activeSubscription: Subscription
+  admins(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+  ): AdminConnection
+  charge: Charge @deprecated(reason: "ChargeType depreciated and will be removed")
+  classAppMarketingEmailsEnabled: Boolean
+  classAppMarketingEmailsEnabledChangedAt: DateTime
+  clients(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    fullName: String
+    order: [String]
+    ageRange: [Int]
+    gender: String
+    attendsNumberRange: [Int]
+    pain: ID
+  ): ClientConnection
+  contactEmail: String
+  contactFirstName: String
+  contactLastName: String
+  contactPhoneNumber: String
+  countryCode: String
+  creditCard: CreditCard
+  creditCards(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+  ): CreditCardConnection
+  defaultIsZoomEnabled: Boolean
+  description: String
+  errors: [Error]
+  fitnessActivity: FitnessActivity
+  followupGroups(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+  ): FollowupGroupConnection
+  groupClassSessions(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    ids: [ID]
+
+    """Available statuses: 'completed', 'past', 'scheduled', 'visible'"""
+    scope: String!
+    startTimeRange: [String]
+    endTimeRange: [String]
+    orderByStartTime: OrderEnum
+    orderByEndTime: OrderEnum
+    zoomEnabled: Boolean
+  ): GroupClassSessionConnection
+  groupClasses(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+  ): GroupClassConnection
+  guruFollowupGroups(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    order: [String]
+    guruIds: [ID]
+    locationIds: [ID]
+    groupDateRange: [String]
+    attendsNumbers: [Int]
+    contentType: [String]
+    showGroupsForFollowupAll: Boolean
+  ): GuruFollowupConnection
+  guruFollowups(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    order: [String]
+    guruIds: [ID]
+    locationIds: [ID]
+    groupDateRange: [String]
+    sentTimeRange: [String]
+    attendsNumbers: [Int]
+    contentType: [String]
+  ): GuruFollowupConnection
+  gurus(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    guruIds: [ID]
+    fullName: String
+    order: [String]
+
+    """
+    Available scopes: ["all", "active", "activated", "invited", "invited_only", "orphan", "passive", "use_followups", "customize_followups", "use_notes", "with_future_classes", "with_lost_accounts_active", "suspended"]
+    """
+    scope: String
+    locationIds: [ID]
+  ): GuruConnection
+  hasLiveVisible: Boolean
+  hasLostAccountsActive: Boolean
+  hasSurveyVisible: Boolean
+  hasSurveysEnabled: Boolean
+  hasTaskListVisible: Boolean
+  hasZoomIntegration: Boolean
+  hasZoomUserManagement: Boolean
+  id: ID!
+  initialPullSinceDate: Date
+  isActive: Boolean
+  isAllowedUpdateLocations: Boolean
+  isAutoZoomEnabled: Boolean
+  isChatEnabled: Boolean
+  isFollowupAllEnabled: Boolean
+  isSetupDone: Boolean
+  isTaskListEnabled: Boolean
+  isZoomEnabled: Boolean
+  locations(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+  ): LocationConnection
+  logo: Image
+  mbActivationCode: String
+  mbActivationLink: String
+  mbSiteId: Int
+  mbUsername: String
+  name: String
+  pricingOptions: [PricingOption]
+  setupSteps: [String]
+  socials: [SocialType]
+  taskListDefaultNumber: Int
+  timezone: String
+  zoomAccountType: String @deprecated(reason: "Use zoomUsers connection instead")
+  zoomCallsCount: Int
+  zoomUsers(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Instructs to synchronously fetch users from Zoom before serving results.
+    """
+    forcePull: Boolean
+
+    """Possible values: 'basic', 'licensed', 'on_prem'"""
+    licenseType: String
+    selected: Boolean
+    enabled: Boolean
+
+    """Filter to return only users created after the provided timestamp."""
+    createdAfterTimestamp: Int
+  ): ZoomUserConnection
+}
+
+type CreditCard {
+  brand: String
+  expirationDate: DateTime
+  expirationDateTimestamp: Int
+  id: ID!
+  isDefault: Boolean
+  last4: String
+}
+
+type Charge {
+  amount: String
+  createdAt: DateTime
+  createdAtTimestamp: Int
+  creditCard: CreditCard
+  id: ID!
+}
+
+type Subscription {
+  endDate: DateTime
+  endDateTimestamp: Int
+  gracePeriodDays: Int
+  hardEndDate: DateTime
+  hardEndDateTimestamp: Int
+  id: ID!
+  inGracePeriod: Boolean
+  isActive: Boolean
+  paymentCycle: Int
+  plan: Plan
+  trialEndTime: DateTime
+  trialEndTimeTimestamp: Int
+}
+
+type Plan {
+  amount: String
+  description: String
+  id: ID!
+  interval: String
+  isActive: Boolean
+  name: String
+  trialPeriodDays: Int
+}
+
+"""The connection type for CreditCard."""
+type CreditCardConnection {
+  """A list of edges."""
+  edges: [CreditCardEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type CreditCardEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: CreditCard
+}
+
+"""Pricing Option type"""
+type PricingOption {
+  confirmedAt: DateTime
+  count: Int
+  duration: Int
+  errors: [Error]
+  fitnessNetwork: FitnessNetwork
+  id: ID!
+  isActive: Boolean
+  isAutoRenewable: Boolean
+  isIntroOffer: Boolean
+  isThirdParty: Boolean
+  name: String
+  price: Float
+  pricePerSession(dateRange: [String]): Float
+  priceType: String
+}
+
+"""Social Type"""
+type SocialType {
+  id: ID!
+  isActive: Boolean
+  platform: String!
+  token: String
+  uid: String
+  url: String
+  user: User
+}
+
+"""Access User"""
+type User {
+  adminFitnessNetworks(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    fitnessNetworkId: ID
+  ): FitnessNetworkConnection
+  admins(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    fitnessNetworkId: ID
+  ): AdminConnection
+  clientFitnessNetworks(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    fitnessNetworkId: ID
+  ): FitnessNetworkConnection
+  clientQuiz: [Hash]
+  createdAt: DateTime
+  email: String!
+  errors: [Error]
+  firstName: String
+  guru(fitnessNetworkId: ID!): Guru
+  guruFitnessNetworks(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    fitnessNetworkId: ID
+  ): FitnessNetworkConnection
+  gurus(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    fitnessNetworkId: ID
+  ): GuruConnection
+  id: ID!
+  intercomAuthtoken: String
+  lastName: String
+  pendingProfiles(profileType: String!): [PublicProfile]
+  socials: [SocialType]
+  username: String
+}
+
+"""Guru"""
+type Guru {
+  activatedAt: DateTime
+  activatedAtTimestamp: Int
+  avatar: Image
+  bio: String
+  clients(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    fullName: String
+    order: [String]
+    ageRange: [Int]
+    attendsNumberRange: [Int]
+    gender: String
+    pain: ID
+  ): ClientConnection
+  defaultGuruFollowups(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    followupGroupIds: [ID]
+    showAll: Boolean
+  ): DefaultGuruFollowupConnection
+  email: String
+  errors: [Error]
+  firstName: String
+  fitnessNetwork: FitnessNetwork
+  fitnessNetworkId: String
+  followupStats(timeRange: [String], fields: [String]!): [Statistics]
+  groupClassSessions(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    startTimeRange: [String]
+    endTimeRange: [String]
+    orderByStartTime: OrderEnum
+    orderByEndTime: OrderEnum
+
+    """Available statuses: 'completed', 'past', 'scheduled', 'visible'"""
+    scope: String
+  ): GroupClassSessionConnection
+  guruFollowupGroups(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    groupDateRange: [String]
+  ): GuruFollowupGroupConnection
+  guruFollowups(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    order: [String]
+    guruIds: [ID]
+    locationIds: [ID]
+    groupDateRange: [String]
+    sentTimeRange: [String]
+    attendsNumbers: [Int]
+    contentType: [String]
+  ): GuruFollowupConnection
+  guruSalary: GuruSalary
+  hasAutoFollowupActive: Boolean
+  hasClientCheckinAllowed: Boolean
+  hasFollowupActive: Boolean
+  hasLostAccountsActive: Boolean
+  hasSurveysActive: Boolean
+  hasSurveysVisible: Boolean
+  id: ID!
+  imageUrl: String
+  isActivated: Boolean
+  isActive: Boolean
+  isChatEnabled: Boolean
+  isCustomizingFollowups: Boolean
+  isInvited: Boolean
+  isUsingFollowups: Boolean
+  isUsingNotes: Boolean
+  lastName: String
+  locations: [Location]
+  mobilePhoneNumber: String
+  notes(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    clientIds: [ID]
+  ): NoteConnection
+  phoneNumber: String
+  profileColor: String
+  socials: [SocialType]
+  suspendedAt: DateTime
+  suspendedAtTimestamp: Int
+  user: User
+}
+
+"""Statistics Type"""
+type Statistics {
+  count: Int
+  data: [Statistics]
+  name: String!
+  value: String
+}
+
+"""Guru Salary"""
+type GuruSalary {
+  amount: Float
+  amountPerClass: Float
+  amountPerVisit: Float
+  effectiveDate: DateTime
+  errors: [Error]
+  guruId: ID
+  id: ID!
+  type: String
+  visitThreshold: Int
+}
+
+"""Location of fitness network"""
+type Location {
+  address: String
+  city: String
+  countryCode: String
+  fitnessNetwork: FitnessNetwork
+  id: ID!
+  isActive: Boolean
+  latitude: String
+  longitude: String
+  name: String!
+  phoneNumber: String
+  postalCode: String
+  state: String
+}
+
+"""The connection type for Client."""
+type ClientConnection {
+  """A list of edges."""
+  edges: [ClientEdge]
+
+  """A list of nodes."""
+  nodes: [Client]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type ClientEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: Client
+}
+
+"""Allowed order types"""
+enum OrderEnum {
+  """Ascending ordering"""
+  asc
+
+  """Descending ordering"""
+  desc
+}
+
+"""The connection type for Note."""
+type NoteConnection {
+  """A list of edges."""
+  edges: [NoteEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type NoteEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: Note
+}
+
+"""Guru Notes about clients"""
+type Note {
+  body: String!
+  client: Client
+  createdAt: DateTime
+  createdAtTimestamp: Int
+  errors: [Error]
+  guru: Guru
+  id: ID!
+  isHidden: Boolean
+  type: String
+  updatedAt: DateTime
+  updatedAtTimestamp: Int
+}
+
+"""The connection type for DefaultGuruFollowup."""
+type DefaultGuruFollowupConnection {
+  """A list of edges."""
+  edges: [DefaultGuruFollowupEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type DefaultGuruFollowupEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: DefaultGuruFollowup
+}
+
+"""Default Guru Followup Group"""
+type DefaultGuruFollowup {
+  content: String
+  errors: [Error]
+  followupGroup: FollowupGroup
+  guru: Guru
+  id: ID!
+  subject: String!
+}
+
+"""Followup Group"""
+type FollowupGroup {
+  attendsNumber: Int
+  daysToFollowup: Int
+  defaultGuruFollowups(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    guruIds: [ID]
+  ): DefaultGuruFollowupConnection
+  description: String
+  errors: [Error]
+  fitnessNetwork: FitnessNetwork
+  guruFollowupGroups(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+  ): GuruFollowupConnection
+  id: ID!
+  isActive: Boolean
+  isAll: Boolean
+  name: String
+  position: Int
+  recommendedContent: String
+  recommendedSubject: String
+}
+
+"""The connection type for GuruFollowup."""
+type GuruFollowupConnection {
+  """A list of edges."""
+  edges: [GuruFollowupEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type GuruFollowupEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: GuruFollowup
+}
+
+"""Guru Followup"""
+type GuruFollowup {
+  content: String
+  contentType: String
+  errors: [Error]
+  guru: Guru
+  guruFollowupGroup: GuruFollowupGroup
+  guruFollowupRecipients(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+  ): GuruFollowupRecipientConnection
+  id: ID!
+  location: Location
+  sentAt: DateTime
+  sentAtTimestamp: Int
+  socials: String
+  subject: String
+}
+
+"""Guru Followup Group"""
+type GuruFollowupGroup {
+  defaultGuruFollowup: DefaultGuruFollowup
+  errors: [Error]
+  fitnessNetwork: FitnessNetwork
+  followupGroup: FollowupGroup
+  groupClassSession: GroupClassSession
+  groupDate: DateTime
+  guru: Guru
+  guruFollowupRecipients(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+  ): GuruFollowupRecipientConnection
+  guruFollowups(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+  ): GuruFollowupConnection
+  id: ID!
+  isCompleted: Boolean
+  notifiedAt: DateTime
+  position: Int
+}
+
+"""The connection type for GuruFollowupRecipient."""
+type GuruFollowupRecipientConnection {
+  """A list of edges."""
+  edges: [GuruFollowupRecipientEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type GuruFollowupRecipientEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: GuruFollowupRecipient
+}
+
+"""Guru Followup Recipient"""
+type GuruFollowupRecipient {
+  client: Client
+  errors: [Error]
+  groupClassSession: GroupClassSession
+  guruFollowup: GuruFollowup
+  guruFollowupGroup: GuruFollowupGroup
+  id: ID!
+  reservation: Reservation
+  sentAt: DateTime
+  sentAtTimestamp: Int
+}
+
+"""The connection type for GuruFollowupGroup."""
+type GuruFollowupGroupConnection {
+  """A list of edges."""
+  edges: [GuruFollowupGroupEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type GuruFollowupGroupEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: GuruFollowupGroup
+}
+
+"""Public Profile type"""
+type PublicProfile {
+  avatar: Image
+  bio: String
+  email: String
+  firstName: String
+  fitnessNetwork: FitnessNetworkPublic
+  fitnessNetworkId: ID
+  id: ID
+  imageUrl: String
+  lastName: String
+  profileType: String
+  socials: [SocialType]
+}
+
+"""Fitness Network """
+type FitnessNetworkPublic {
+  description: String
+  gurus(
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+    fullName: String
+    invitedOnly: Boolean
+  ): PublicProfileConnection
+  id: ID!
+  name: String
+}
+
+"""The connection type for PublicProfile."""
+type PublicProfileConnection {
+  """A list of edges."""
+  edges: [PublicProfileEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type PublicProfileEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: PublicProfile
+}
+
+"""Hash type"""
+scalar Hash
+
+"""The connection type for Admin."""
+type AdminConnection {
+  """A list of edges."""
+  edges: [AdminEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type AdminEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: Admin
+}
+
+"""The connection type for Guru."""
+type GuruConnection {
+  """A list of edges."""
+  edges: [GuruEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type GuruEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: Guru
+}
+
+"""The connection type for FitnessNetwork."""
+type FitnessNetworkConnection {
+  """A list of edges."""
+  edges: [FitnessNetworkEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type FitnessNetworkEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: FitnessNetwork
+}
+
+"""The connection type for GroupClass."""
+type GroupClassConnection {
+  """A list of edges."""
+  edges: [GroupClassEdge]
+
+  """A list of nodes."""
+  nodes: [GroupClass]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type GroupClassEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: GroupClass
+}
+
+"""Group Class"""
+type GroupClass {
+  description: String
+  errors: [Error!]
+  fitnessActivities(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): FitnessActivityConnection
+  fitnessNetwork: FitnessNetwork
+  groupClassSessions(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+  ): GroupClassSessionConnection
+  id: ID!
+  name: String!
+  totalScheduled: Int
+}
+
+"""The connection type for FitnessActivity."""
+type FitnessActivityConnection {
+  """A list of edges."""
+  edges: [FitnessActivityEdge]
+
+  """A list of nodes."""
+  nodes: [FitnessActivity]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type FitnessActivityEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: FitnessActivity
+}
+
+"""The connection type for Location."""
+type LocationConnection {
+  """A list of edges."""
+  edges: [LocationEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type LocationEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: Location
+}
+
+"""The connection type for FollowupGroup."""
+type FollowupGroupConnection {
+  """A list of edges."""
+  edges: [FollowupGroupEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type FollowupGroupEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: FollowupGroup
+}
+
+"""The connection type for ZoomUser."""
+type ZoomUserConnection {
+  """A list of edges."""
+  edges: [ZoomUserEdge]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+  totalCount: Int
+}
+
+"""An edge in a connection."""
+type ZoomUserEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: ZoomUser
+}
+
+"""Personas message information"""
+type Personas__Message {
+  client: Client!
+  content: String!
+  id: ID!
+  sender: Profile!
+  sentAt: DateTime!
+  sentAtTimestamp: Int!
+  subject: String!
+  task: Personas__Task!
+}
+
+"""Personas segment information"""
+type Segment {
+  description: String!
+  goal: String
+  isActive: String!
+  name: String!
+  priority: Int!
+  suggestedAction: String
+}
+
+"""Personas segment recommendation information"""
+type SegmentRecommendation {
+  content: String!
+  isActive: String!
+  subject: String!
+}
+
+"""The connection type for BaseGuruTile."""
+type BaseGuruTileConnection {
+  """A list of edges."""
+  edges: [BaseGuruTileEdge]
+
+  """A list of nodes."""
+  nodes: [BaseGuruTile]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type BaseGuruTileEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: BaseGuruTile
+}
+
+union BaseGuruTile = GuruTile | GuruUserTile
+
+"""Guru's profile short information"""
+type GuruTile {
+  activities: [String!] @deprecated(reason: "Use fitnessActivities field instead")
+  avatar: Image
+  chatAccount: ChatAccount
+  cities: [String!]
+  firstName: String
+  fitnessActivities: [FitnessActivity!]
+  fitnessNetworkName: String
+  id: ID!
+  lastName: String
+  visitedFriendsCount: Int
+  visitsCount: Int
+}
+
+"""Guru's aggrigated profile short information"""
+type GuruUserTile {
+  activities: [String!] @deprecated(reason: "Use fitnessActivities field instead")
+  avatar: Image
+  chatAccounts: [ChatAccount!]
+  cities: [String!]
+  firstName: String
+  fitnessActivities: [FitnessActivity!]
+  fitnessNetworkNames: [String!]
+  id: ID!
+  lastName: String
+  visitedFriendsCount: Int
+  visitsCount: Int
+}
+
+"""The connection type for CityTile."""
+type CityTileConnection {
+  """A list of edges."""
+  edges: [CityTileEdge]
+
+  """A list of nodes."""
+  nodes: [CityTile]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type CityTileEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: CityTile
+}
+
+"""City Tile"""
+type CityTile {
+  city: String
+  state: String
+}
+
+"""The connection type for LocationTile."""
+type LocationTileConnection {
+  """A list of edges."""
+  edges: [LocationTileEdge]
+
+  """A list of nodes."""
+  nodes: [LocationTile]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type LocationTileEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: LocationTile
+}
+
+"""Location Tile"""
+type LocationTile {
+  address: String
+  attendsCount: Int
+  city: String
+  id: ID!
+  name: String
+  state: String
+}
+
+"""The connection type for BookingLocation."""
+type BookingLocationConnection {
+  """A list of edges."""
+  edges: [BookingLocationEdge]
+
+  """A list of nodes."""
+  nodes: [BookingLocation]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type BookingLocationEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: BookingLocation
+}
+
+"""Sudio Location with extra fields for Booking page"""
+type BookingLocation {
+  attendsUntilReward: Int
+  canBeBookedFree: Boolean
+
+  """Sudio City"""
+  city: String
+
+  """Sudio Location Clients"""
+  clients: [BasicUserInfo!]
+
+  """Distance from current client location to studio location"""
+  distance: Float
+  fitnessActivities: [FitnessActivity!]
+
+  """Count of friends in studio location"""
+  friendsCount: Int!
+  hasFreeClasses: Boolean
+
+  """Studio Location ID"""
+  id: ID!
+
+  """Studio Logo Image"""
+  logo: Image
+
+  """Studio Name"""
+  name: String!
+
+  """Visit count of studio location"""
+  visitCount: Int!
+}
+
+"""Chat Auth Info"""
+type ChatAuthInfoType {
+  chatableId: ID
+  isActivated: Boolean
+  jid: String
+  password: String
+}
+
+"""The connection type for ContactType."""
+type ContactTypeConnection {
+  """A list of edges."""
+  edges: [ContactTypeEdge]
+
+  """A list of nodes."""
+  nodes: [ContactType]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type ContactTypeEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: ContactType
+}
+
+"""Contact Type"""
+type ContactType {
+  blockerChatAccount: ChatAccount
+  isBlocked: Boolean
+  item: ContactItem
+}
+
+"""Contact Item"""
+union ContactItem = ChatAccount | ChatGroup | Announcement
+
+"""Chat Group information"""
+type ChatGroup {
+  commonClassmateCount: Int
+  description: String
+  facebookFriendsCount: Int
+  fitGridFriendsCount: Int
+  id: ID!
+  isAdmin: Boolean
+  isPublic: Boolean
+  logo: Image
+  members(
+    """Returns the elements in the list that come after the specified cursor."""
+    after: String
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """Returns the first _n_ elements from the list."""
+    first: Int
+
+    """Returns the last _n_ elements from the list."""
+    last: Int
+
+    """
+    Filter members by status. Allowed values: 'banned' or 'unbanned', by default returns unbanned members
+    """
+    status: String
+  ): ChatMemberConnection
+  name: String
+  publicUrlPath: String
+  roomJID: String
+  typeOfChat: String
+}
+
+"""The connection type for ChatMember."""
+type ChatMemberConnection {
+  """A list of edges."""
+  edges: [ChatMemberEdge]
+
+  """A list of nodes."""
+  nodes: [ChatMember]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type ChatMemberEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: ChatMember
+}
+
+"""Chat Member"""
+type ChatMember {
+  accountType: String
+  avatar: Image
+  firstName: String
+  isAdmin: Boolean!
+  jid: String!
+  lastName: String
+  userId: ID
+}
+
+"""Announcement"""
+type Announcement {
+  contact: ChatAccount
+  id: ID!
+  lastMessageCreatedAt: Int
+  logo: Image
+  messages: [AnnouncementMessage!]!
+  subTitle: String
+  title: String!
+  unreadCount: Int
+}
+
+"""Announcement Message"""
+type AnnouncementMessage {
+  id: ID!
+  message: String!
+}
+
+"""The connection type for GroupClassSessionChat."""
+type GroupClassSessionChatConnection {
+  """A list of edges."""
+  edges: [GroupClassSessionChatEdge]
+
+  """A list of nodes."""
+  nodes: [GroupClassSessionChat]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type GroupClassSessionChatEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: GroupClassSessionChat
+}
+
+"""Group Class Session for Chat"""
+type GroupClassSessionChat {
+  className: String
+  clients: [ChatAccount!]
+  startTime: DateTime
+}
+
+"""The connection type for FriendChatAccountType."""
+type FriendChatAccountTypeConnection {
+  """A list of edges."""
+  edges: [FriendChatAccountTypeEdge]
+
+  """A list of nodes."""
+  nodes: [FriendChatAccountType]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type FriendChatAccountTypeEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: FriendChatAccountType
+}
+
+"""Friend Chat Account"""
+type FriendChatAccountType {
+  accountType: String
+  avatar: Image
+  firstName: String
+  isFacebookFriend: Boolean
+  jid: String!
+  lastName: String
+  userId: ID
+}
+
+"""The connection type for ChatAccount."""
+type ChatAccountConnection {
+  """A list of edges."""
+  edges: [ChatAccountEdge]
+
+  """A list of nodes."""
+  nodes: [ChatAccount]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type ChatAccountEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: ChatAccount
+}
+
+"""The connection type for ChatGroup."""
+type ChatGroupConnection {
+  """A list of edges."""
+  edges: [ChatGroupEdge]
+
+  """A list of nodes."""
+  nodes: [ChatGroup]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type ChatGroupEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: ChatGroup
+}
+
+"""The connection type for Reward."""
+type RewardConnection {
+  """A list of edges."""
+  edges: [RewardEdge]
+
+  """A list of nodes."""
+  nodes: [Reward]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type RewardEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: Reward
+}
+
+"""Reward type"""
+type Reward {
+  classesTakenCount: Int
+  expirationTimeTimestamp: Int
+  fitnessNetworkName: String
+  name: String!
+  redeemedAtTimestamp: Int
+  status: String!
+  type: String!
+}
+
+"""Returns rewards related counts"""
+type RewardCounts {
+  currentlyAvailable: Int!
+  perStudioAttends: Int!
+  totalAvailable: Int!
+}
+
+"""The connection type for PhoneNumberConfirmation."""
+type PhoneNumberConfirmationConnection {
+  """A list of edges."""
+  edges: [PhoneNumberConfirmationEdge]
+
+  """A list of nodes."""
+  nodes: [PhoneNumberConfirmation]
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """Total count of edges"""
+  totalCount: Int!
+}
+
+"""An edge in a connection."""
+type PhoneNumberConfirmationEdge {
+  """A cursor for use in pagination."""
+  cursor: String!
+
+  """The item at the end of the edge."""
+  node: PhoneNumberConfirmation
+}
+
+"""Phone number confirmations type"""
+type PhoneNumberConfirmation {
+  confirmedAtTimestamp: String
+  createdAtTimestamp: String
+  phoneNumber: String!
+
+  """Available statuses: requested, pending, confirmed"""
+  status: String
+}
+
+type ClientMutation {
+  """Accept Friendship"""
+  acceptFriendship(input: AcceptFriendshipMutationInput!): AcceptFriendshipMutationPayload
+
+  """Accept Invitation"""
+  acceptInvitation(input: AcceptInvitationMutationInput!): AcceptInvitationMutationPayload
+
+  """Add ChatAccount to Contacts"""
+  addToContacts(input: AddToContactInput!): AddToContactPayload
+
+  """Ban User in Chat"""
+  banUser(input: BanUserInput!): BanUserPayload
+
+  """block contact"""
+  blockContact(input: BlockContactInput!): BlockContactPayload
+
+  """Block Friendship"""
+  blockFriendship(input: BlockFriendshipMutationInput!): BlockFriendshipMutationPayload
+
+  """Book a class"""
+  bookClass(input: BookClassInput!): BookClassPayload
+
+  """Cancel booked class"""
+  cancelBookedClass(input: CancelBookedClassInput!): CancelBookedClassPayload
+
+  """Confirm FitGrid Client Link Account"""
+  confirmClientAccounts(input: ConfirmClientAccountsMutationInput!): ConfirmClientAccountsMutationPayload
+
+  """Confirm phone number"""
+  confirmPhoneNumber(input: ConfirmPhoneNumberInput!): ConfirmPhoneNumberPayload
+
+  """Connect Facebook or Update Facebook connection"""
+  connectFacebook(input: ConnectFacebookInput!): ConnectFacebookPayload
+
+  """Create new Public/Private Chat Group"""
+  createChatGroup(input: CreateChatGroupMutationInput!): CreateChatGroupMutationPayload
+
+  """Create Clients Invitations via emails"""
+  createInvitations(input: CreateInvitationsInput!): CreateInvitationsPayload
+
+  """Report Chat/Group/Profile"""
+  createReportRequest(input: CreateReportRequestInput!): CreateReportRequestPayload
+  createSupportRequest(input: CreateSupportRequestInput!): CreateSupportRequestPayload
+
+  """Create Manual Workout"""
+  createWorkout(input: CreateWorkoutInput!): CreateWorkoutPayload
+
+  """Decline Friendship"""
+  declineFriendship(input: DeclineFriendshipMutationInput!): DeclineFriendshipMutationPayload
+
+  """Delete Public/Private Chat Group or Broadcast"""
+  deleteChatGroup(input: DeleteChatGroupInput!): DeleteChatGroupPayload
+
+  """Request Friendship"""
+  deleteFriendship(input: DeleteFriendshipMutationInput!): DeleteFriendshipMutationPayload
+
+  """Delete ChatAccount to Contacts"""
+  deleteFromContacts(input: DeleteFromContactsInput!): DeleteFromContactsPayload
+
+  """Disconnect Facebook account from FitGrid"""
+  disconnectFacebook(input: DisconnectFacebookInput!): DisconnectFacebookPayload
+
+  """Client signin via Facebook"""
+  facebookSignin(input: FacebookSigninInput!): FacebookSigninPayload
+
+  """Invite Users to Chat/Broadcast"""
+  inviteToChat(input: InviteToChatInput!): InviteToChatPayload
+
+  """Creates Invitations to class via emails"""
+  inviteToClass(input: InviteToClassInput!): InviteToClassPayload
+
+  """Join To Chat or Broadcast"""
+  joinChat(input: JoinChatInput!): JoinChatPayload
+
+  """Leave Chat or Broadcast"""
+  leaveChat(input: LeaveChatInput!): LeaveChatPayload
+
+  """Link FitGrid Client with external client account"""
+  linkClientAccount(input: LinkClientAccountInput!): LinkClientAccountPayload
+
+  """Add ChatAccount to Contacts"""
+  linkContacts(input: LinkContactsInput!): LinkContactsPayload
+
+  """Read Announcement"""
+  readAnnouncement(input: ReadAnnouncementInput!): ReadAnnouncementPayload
+  registerDevice(input: RegisterDeviceInput!): RegisterDevicePayload
+
+  """Request Friendship"""
+  requestFriendship(input: RequestFriendshipMutationInput!): RequestFriendshipMutationPayload
+
+  """Re-send email with client confirmation for primary email"""
+  resendPrimaryEmailConfirmation(input: ResendPrimaryEmailConfirmationInput!): ResendPrimaryEmailConfirmationPayload
+
+  """Create or Update Weekly Goal"""
+  setGoal(input: SetGoalInput!): SetGoalPayload
+
+  """Setup Country and ZipCode"""
+  setLocation(input: SetLocationMutationInput!): SetLocationMutationPayload
+
+  """Sign Out Mutation"""
+  signOut(input: SignOutInput!): SignOutPayload
+
+  """Client signin via email and password"""
+  signin(input: SigninMutationInput!): SigninMutationPayload
+
+  """Submit Quiz Answers"""
+  submitQuizAnswers(input: SubmitQuizAnswersInput!): SubmitQuizAnswersPayload
+
+  """Unban User in Chat"""
+  unBanUser(input: UnBanUserInput!): UnBanUserPayload
+
+  """Unblock Friendship"""
+  unblockFriendship(input: UnblockFriendshipMutationInput!): UnblockFriendshipMutationPayload
+
+  """Universal Client signin via Facebook or Email"""
+  universalSignup(input: UniversalSignupInput!): UniversalSignupPayload
+
+  """Unlink a linked account"""
+  unlinkClientAccount(input: UnlinkAccountInput!): UnlinkAccountPayload
+
+  """Update Public/Private Chat Group"""
+  updateChatGroup(input: UpdateChatGroupInput!): UpdateChatGroupPayload
+  updateCurrentLocation(input: UpdateCurrentLocationInput!): UpdateCurrentLocationPayload
+  updateCurrentTimezone(input: UpdateCurrentTimezoneInput!): UpdateCurrentTimezonePayload
+
+  """Update Friends Upcoming Classes Exception List"""
+  updateFriendsUpcomingClassesExceptionList(input: UpdateFriendsUpcomingClassesExceptionListInput!): UpdateFriendsUpcomingClassesExceptionListPayload
+
+  """Update My Upcoming Classes Exception List"""
+  updateMyUpcomingClassesExceptionList(input: UpdateMyUpcomingClassesExceptionListInput!): UpdateMyUpcomingClassesExceptionListPayload
+
+  """Update Client Privacy Settings"""
+  updatePrivacySettings(input: UpdatePrivacySettingsInput!): UpdatePrivacySettingsPayload
+
+  """Update Client Profile Mutation"""
+  updateProfile(input: UpdateProfileInput!): UpdateProfilePayload
+
+  """Update Client Push Notifications Settings"""
+  updatePushNotifications(input: UpdatePushNotificationsInput!): UpdatePushNotificationsPayload
+  updateUser(input: UpdateUserInput!): UpdateUserPayload
+
+  """Update Workout Mutation"""
+  updateWorkout(input: UpdateWorkoutMutationInput!): UpdateWorkoutMutationPayload
+
+  """Verify phone number"""
+  verifyPhoneNumber(input: VerifyPhoneNumberInput!): VerifyPhoneNumberPayload
+}
+
+"""Autogenerated return type of ConnectFacebook"""
+type ConnectFacebookPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  user: ClientUser
+}
+
+"""Autogenerated input type of ConnectFacebook"""
+input ConnectFacebookInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  accessToken: String!
+}
+
+"""Autogenerated return type of DisconnectFacebook"""
+type DisconnectFacebookPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  user: ClientUser
+}
+
+"""Autogenerated input type of DisconnectFacebook"""
+input DisconnectFacebookInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+}
+
+"""Autogenerated return type of FacebookSignin"""
+type FacebookSigninPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  user: ClientUser
+}
+
+"""Autogenerated input type of FacebookSignin"""
+input FacebookSigninInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  accessToken: String!
+}
+
+"""Autogenerated return type of UniversalSignup"""
+type UniversalSignupPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  user: ClientUser
+}
+
+"""Autogenerated input type of UniversalSignup"""
+input UniversalSignupInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+
+  """facebook or email"""
+  signupType: String
+  accessToken: String
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  passwordConfirmation: String
+  birthday: Date
+  gender: String
+  invitationCode: String
+}
+
+"""Autogenerated return type of SigninMutation"""
+type SigninMutationPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  user: ClientUser
+}
+
+"""Autogenerated input type of SigninMutation"""
+input SigninMutationInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  email: String!
+  password: String!
+}
+
+"""Autogenerated return type of SetLocationMutation"""
+type SetLocationMutationPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  user: ClientUser
+}
+
+"""Autogenerated input type of SetLocationMutation"""
+input SetLocationMutationInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  country: String!
+  zipCode: String
+}
+
+"""Autogenerated return type of LinkClientAccount"""
+type LinkClientAccountPayload {
+  clientConfirmation: ClientConfirmation
+
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+}
+
+"""Autogenerated input type of LinkClientAccount"""
+input LinkClientAccountInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  email: String!
+}
+
+"""Autogenerated return type of ConfirmClientAccountsMutation"""
+type ConfirmClientAccountsMutationPayload {
+  clientConfirmation: ClientConfirmation
+
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+}
+
+"""Autogenerated input type of ConfirmClientAccountsMutation"""
+input ConfirmClientAccountsMutationInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  token: String!
+}
+
+"""Autogenerated return type of UnlinkAccount"""
+type UnlinkAccountPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  status: String
+}
+
+"""Autogenerated input type of UnlinkAccount"""
+input UnlinkAccountInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  clientConfirmationId: ID!
+}
+
+"""Autogenerated return type of ResendPrimaryEmailConfirmation"""
+type ResendPrimaryEmailConfirmationPayload {
+  clientConfirmation: ClientConfirmation
+
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+}
+
+"""Autogenerated input type of ResendPrimaryEmailConfirmation"""
+input ResendPrimaryEmailConfirmationInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+}
+
+"""Autogenerated return type of UpdatePushNotifications"""
+type UpdatePushNotificationsPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  pushNotifications: [PushNotification]
+}
+
+"""Autogenerated input type of UpdatePushNotifications"""
+input UpdatePushNotificationsInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  pushNotifications: [PushNotificationAttributes]!
+}
+
+"""Push Notification Setting"""
+input PushNotificationAttributes {
+  """Push Type (category of push notification)"""
+  pushType: String!
+
+  """Is enabled current push notification"""
+  enabled: Boolean!
+}
+
+"""Autogenerated return type of UpdatePrivacySettings"""
+type UpdatePrivacySettingsPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  privacySettings: [PrivacySetting]
+}
+
+"""Autogenerated input type of UpdatePrivacySettings"""
+input UpdatePrivacySettingsInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  privacySettings: [PrivacySettingsAttributes]!
+}
+
+"""Privacy Setting"""
+input PrivacySettingsAttributes {
+  """Name of Key of Privacy"""
+  keyName: String!
+
+  """Is enabled privacy with keyName"""
+  enabled: Boolean!
+}
+
+"""Autogenerated return type of UpdateMyUpcomingClassesExceptionList"""
+type UpdateMyUpcomingClassesExceptionListPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  settings: ClientSettings
+}
+
+"""Autogenerated input type of UpdateMyUpcomingClassesExceptionList"""
+input UpdateMyUpcomingClassesExceptionListInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  action: ListActionEnum!
+  friendUserIds: [ID!]
+}
+
+"""Allowed actions on list"""
+enum ListActionEnum {
+  """Add item or items to list"""
+  add
+
+  """Delete item or items from list"""
+  delete
+
+  """Delete all items"""
+  delete_all
+}
+
+"""Autogenerated return type of UpdateFriendsUpcomingClassesExceptionList"""
+type UpdateFriendsUpcomingClassesExceptionListPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  settings: ClientSettings
+}
+
+"""Autogenerated input type of UpdateFriendsUpcomingClassesExceptionList"""
+input UpdateFriendsUpcomingClassesExceptionListInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  action: ListActionEnum!
+  friendUserIds: [ID!]
+}
+
+"""Autogenerated return type of SubmitQuizAnswers"""
+type SubmitQuizAnswersPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  currentUser: ClientUser
+  quiz: [QuizSection]
+}
+
+"""Autogenerated input type of SubmitQuizAnswers"""
+input SubmitQuizAnswersInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  quizAnswers: QuizAnswersAttributes
+}
+
+"""Quiz Answers"""
+input QuizAnswersAttributes {
+  items: [AnswerAttributes!]!
+}
+
+"""Answer Attributes for one Quiz Question"""
+input AnswerAttributes {
+  """Question Key"""
+  questionKey: String!
+
+  """Answers Ids"""
+  answersIDs: [Int!]!
+}
+
+"""Autogenerated return type of CreateSupportRequest"""
+type CreateSupportRequestPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  supportRequest: SupportRequest
+}
+
+"""Support Request"""
+type SupportRequest {
+  email: String
+  message: String
+  name: String
+  screenshot: Image
+}
+
+"""Autogenerated input type of CreateSupportRequest"""
+input CreateSupportRequestInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  name: String
+  email: String
+  message: String!
+  screenshot: String
+}
+
+"""Autogenerated return type of SetGoal"""
+type SetGoalPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  goal: Goal
+}
+
+"""Client Goal"""
+type Goal {
+  effectiveFrom: Date!
+  weeklyGoal: Int
+}
+
+"""Autogenerated input type of SetGoal"""
+input SetGoalInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  weeklyGoal: Int!
+  effectiveFrom: Date!
+}
+
+"""Autogenerated return type of UpdateWorkoutMutation"""
+type UpdateWorkoutMutationPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  workout: Workout
+}
+
+"""Autogenerated input type of UpdateWorkoutMutation"""
+input UpdateWorkoutMutationInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  id: String!
+  duration: Int
+  date: Date
+  workoutType: String
+  location: String
+}
+
+"""Autogenerated return type of CreateWorkout"""
+type CreateWorkoutPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  workout: Workout
+}
+
+"""Autogenerated input type of CreateWorkout"""
+input CreateWorkoutInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  duration: Int!
+  date: Date!
+  workoutType: String!
+  location: String!
+}
+
+"""Autogenerated return type of RequestFriendshipMutation"""
+type RequestFriendshipMutationPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  friendship: Friendship
+}
+
+"""Autogenerated input type of RequestFriendshipMutation"""
+input RequestFriendshipMutationInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  friendUserId: ID!
+  message: String
+}
+
+"""Autogenerated return type of AcceptFriendshipMutation"""
+type AcceptFriendshipMutationPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  friendship: Friendship
+}
+
+"""Autogenerated input type of AcceptFriendshipMutation"""
+input AcceptFriendshipMutationInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  friendUserId: ID!
+}
+
+"""Autogenerated return type of BlockFriendshipMutation"""
+type BlockFriendshipMutationPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  friendship: Friendship
+}
+
+"""Autogenerated input type of BlockFriendshipMutation"""
+input BlockFriendshipMutationInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  friendUserId: ID!
+}
+
+"""Autogenerated return type of DeclineFriendshipMutation"""
+type DeclineFriendshipMutationPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  friendship: Friendship
+}
+
+"""Autogenerated input type of DeclineFriendshipMutation"""
+input DeclineFriendshipMutationInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  friendUserId: ID!
+}
+
+"""Autogenerated return type of UnblockFriendshipMutation"""
+type UnblockFriendshipMutationPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  friendship: Friendship
+}
+
+"""Autogenerated input type of UnblockFriendshipMutation"""
+input UnblockFriendshipMutationInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  friendUserId: ID!
+}
+
+"""Autogenerated return type of DeleteFriendshipMutation"""
+type DeleteFriendshipMutationPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  friendship: Friendship
+}
+
+"""Autogenerated input type of DeleteFriendshipMutation"""
+input DeleteFriendshipMutationInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  friendUserId: ID!
+}
+
+"""Autogenerated return type of UpdateProfile"""
+type UpdateProfilePayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  user: ClientUser
+}
+
+"""Autogenerated input type of UpdateProfile"""
+input UpdateProfileInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  firstName: String
+  lastName: String
+  birthday: String
+  aboutMe: String
+  avatarData: String
+}
+
+"""Autogenerated return type of UpdateUser"""
+type UpdateUserPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  user: User
+}
+
+"""Autogenerated input type of UpdateUser"""
+input UpdateUserInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  email: String
+  username: String
+  firstName: String
+  lastName: String
+  password: String
+  passwordConfirmation: String
+  currentPassword: String
+  resetPasswordToken: String
+  provider: String
+  providerToken: String
+  uid: String
+}
+
+"""Autogenerated return type of UpdateCurrentLocation"""
+type UpdateCurrentLocationPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  user: ClientUser
+}
+
+"""Autogenerated input type of UpdateCurrentLocation"""
+input UpdateCurrentLocationInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  currentLongitude: Float!
+  currentLatitude: Float!
+}
+
+"""Autogenerated return type of UpdateCurrentTimezone"""
+type UpdateCurrentTimezonePayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  user: ClientUser
+}
+
+"""Autogenerated input type of UpdateCurrentTimezone"""
+input UpdateCurrentTimezoneInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  timezoneName: String!
+}
+
+"""Autogenerated return type of CreateChatGroupMutation"""
+type CreateChatGroupMutationPayload {
+  chatGroup: ChatGroup
+
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+}
+
+"""Autogenerated input type of CreateChatGroupMutation"""
+input CreateChatGroupMutationInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  name: String
+  description: String
+  isPublic: Boolean!
+  publicUrlPath: String
+  logo: String
+  logoData: String
+}
+
+"""Autogenerated return type of UpdateChatGroup"""
+type UpdateChatGroupPayload {
+  chatGroup: ChatGroup
+
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+}
+
+"""Autogenerated input type of UpdateChatGroup"""
+input UpdateChatGroupInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  roomJID: String!
+  name: String
+  description: String
+  isPublic: Boolean
+  publicUrlPath: String
+  logo: String
+  logoData: String
+}
+
+"""Autogenerated return type of DeleteChatGroup"""
+type DeleteChatGroupPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  isDeleted: Boolean
+}
+
+"""Autogenerated input type of DeleteChatGroup"""
+input DeleteChatGroupInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  roomJID: String!
+}
+
+"""Autogenerated return type of JoinChat"""
+type JoinChatPayload {
+  chatGroup: ChatGroup
+
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+}
+
+"""Autogenerated input type of JoinChat"""
+input JoinChatInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  publicUrlPath: String!
+}
+
+"""Autogenerated return type of LeaveChat"""
+type LeaveChatPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  isLeft: Boolean!
+}
+
+"""Autogenerated input type of LeaveChat"""
+input LeaveChatInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  roomJID: String!
+}
+
+"""Autogenerated return type of BanUser"""
+type BanUserPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  isBanned: Boolean
+}
+
+"""Autogenerated input type of BanUser"""
+input BanUserInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  jid: String!
+  roomJID: String!
+}
+
+"""Autogenerated return type of UnBanUser"""
+type UnBanUserPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  isBanned: Boolean
+}
+
+"""Autogenerated input type of UnBanUser"""
+input UnBanUserInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  jid: String!
+  roomJID: String!
+}
+
+"""Autogenerated return type of AddToContact"""
+type AddToContactPayload {
+  chatAccount: ChatAccount
+
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+}
+
+"""Autogenerated input type of AddToContact"""
+input AddToContactInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  jid: String!
+}
+
+"""Autogenerated return type of LinkContacts"""
+type LinkContactsPayload {
+  chatAccount: ChatAccount
+
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+}
+
+"""Autogenerated input type of LinkContacts"""
+input LinkContactsInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  jid: String!
+}
+
+"""Autogenerated return type of DeleteFromContacts"""
+type DeleteFromContactsPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  isDeleted: Boolean
+}
+
+"""Autogenerated input type of DeleteFromContacts"""
+input DeleteFromContactsInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  jid: String!
+}
+
+"""Autogenerated return type of BlockContact"""
+type BlockContactPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  isBlocked: Boolean
+}
+
+"""Autogenerated input type of BlockContact"""
+input BlockContactInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  jid: String!
+}
+
+"""Autogenerated return type of InviteToChat"""
+type InviteToChatPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  userJIDS: [String]
+}
+
+"""Autogenerated input type of InviteToChat"""
+input InviteToChatInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  roomJID: String!
+  userJIDS: [String]!
+}
+
+"""Autogenerated return type of ReadAnnouncement"""
+type ReadAnnouncementPayload {
+  announcement: Announcement
+
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+}
+
+"""Autogenerated input type of ReadAnnouncement"""
+input ReadAnnouncementInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  announcementId: String!
+}
+
+"""Autogenerated return type of CreateReportRequest"""
+type CreateReportRequestPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  reportRequest: ReportRequest
+}
+
+"""Report Request"""
+type ReportRequest {
+  externalId: ID!
+  reason: ID
+  screenshot: Image
+}
+
+"""Autogenerated input type of CreateReportRequest"""
+input CreateReportRequestInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+
+  """profile, chat_account, chat_group"""
+  type: String
+  jid: String
+  profileId: ID
+  reason: String
+  screenshot: String
+}
+
+"""Autogenerated return type of CreateInvitations"""
+type CreateInvitationsPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  status: Boolean
+}
+
+"""Autogenerated input type of CreateInvitations"""
+input CreateInvitationsInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  emails: [String]!
+}
+
+"""Autogenerated return type of InviteToClass"""
+type InviteToClassPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  status: Boolean
+}
+
+"""Autogenerated input type of InviteToClass"""
+input InviteToClassInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  emails: [String]!
+  groupClassSessionId: ID!
+}
+
+"""Autogenerated return type of AcceptInvitationMutation"""
+type AcceptInvitationMutationPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  status: Boolean
+}
+
+"""Autogenerated input type of AcceptInvitationMutation"""
+input AcceptInvitationMutationInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  invitationCode: String
+}
+
+"""Autogenerated return type of RegisterDevice"""
+type RegisterDevicePayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  isRegistered: Boolean
+}
+
+"""Autogenerated input type of RegisterDevice"""
+input RegisterDeviceInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  token: String!
+  platform: String!
+  app_name: String!
+  version: String!
+  env: String!
+}
+
+"""Autogenerated return type of SignOut"""
+type SignOutPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  isSuccess: Boolean
+}
+
+"""Autogenerated input type of SignOut"""
+input SignOutInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  token: String!
+}
+
+"""Autogenerated return type of BookClass"""
+type BookClassPayload {
+  bookingLink: String
+
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  reason: String
+  reservation: Reservation
+  status: String
+}
+
+"""Autogenerated input type of BookClass"""
+input BookClassInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  groupClassSessionId: ID!
+  bookFree: Boolean
+  emailOptIn: Boolean
+}
+
+"""Autogenerated return type of CancelBookedClass"""
+type CancelBookedClassPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  status: String
+}
+
+"""Autogenerated input type of CancelBookedClass"""
+input CancelBookedClassInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  groupClassSessionId: ID!
+}
+
+"""Autogenerated return type of VerifyPhoneNumber"""
+type VerifyPhoneNumberPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  status: Boolean
+}
+
+"""Autogenerated input type of VerifyPhoneNumber"""
+input VerifyPhoneNumberInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  phoneNumber: String!
+}
+
+"""Autogenerated return type of ConfirmPhoneNumber"""
+type ConfirmPhoneNumberPayload {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  status: Boolean
+}
+
+"""Autogenerated input type of ConfirmPhoneNumber"""
+input ConfirmPhoneNumberInput {
+  """A unique identifier for the client performing the mutation."""
+  clientMutationId: String
+  phoneNumber: String!
+  verificationCode: String!
+}

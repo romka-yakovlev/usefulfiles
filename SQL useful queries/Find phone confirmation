@@ -1,0 +1,5 @@
+select client_account_id, client.user_id from phone_number_confirmations as phone
+join client_accounts as client
+on phone.client_account_id = client.id
+where phone.phone_number = '+380 99 245 3941'
+and status = 2
