@@ -1,0 +1,4 @@
+require 'active_support/time'
+Time.zone = "Europe/Kiev"
+Time.zone.now
+Time.zone.parse("2021-01-28").beginning_of_day.to_i

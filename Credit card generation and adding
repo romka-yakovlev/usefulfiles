@@ -1,0 +1,15 @@
+curl https://api.stripe.com/v1/tokens -u pk_test_51HjQgGEaTsK3pdyUdEDVxTFkimJiVNNMhV5c7eX6tx5tQ4wsHmviOSPBMemD9P8FD8uLFn6Csst3mdKGRBlTVbWy00qyrIpEbo -d "card[number]=5555555555554444" -d "card[exp_month]=12" -d "card[exp_year]=2021" -d "card[cvc]=123" -d "card[address_zip]=11010"
+
+
+mutation {
+  setCreditCard(input: {
+    stripeToken: "tok_1ICMgfEaTsK3pdyUqkqOk0TK"
+  }) {
+    creditCard {
+      brand
+      expirationMonth
+      expirationYear
+      last4
+    }
+  }
+}

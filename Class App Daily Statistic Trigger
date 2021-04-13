@@ -1,0 +1,2 @@
+fitness_network_id = 1021
+Analytics::FitnessNetworkClassAppDailyStatByFitnessNetworkJob.perform_async(fitness_network_id)
