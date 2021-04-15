@@ -1,0 +1,5 @@
+
+//dashboard statistic
+Analytics::FitnessNetworkCommunityDailyStatsService.perform(FitnessNetwork.find(1169))
+//classapp statistic
+Analytics::FitnessNetworkClassAppDailyStatByFitnessNetworkJob.perform_async(FitnessNetwork.find(1169))

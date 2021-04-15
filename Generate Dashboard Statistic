@@ -1,3 +1,0 @@
-//generating dashboard statistic per each studio (studio id)
-
-Analytics::FitnessNetworkCommunityDailyStatsService.perform(FitnessNetwork.find(1168))
