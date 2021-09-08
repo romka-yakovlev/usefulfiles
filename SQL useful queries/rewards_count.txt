@@ -1,0 +1,11 @@
+select ca.id,
+       first_name,
+       last_name,
+       count(rewards.id) total
+
+from client_accounts ca
+join rewards
+on ca.id = rewards.client_account_id
+group by ca.id, first_name, last_name
+having count(rewards.id) >= 5
+order by total desc
