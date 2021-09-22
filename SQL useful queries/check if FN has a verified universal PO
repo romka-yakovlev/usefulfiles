@@ -1,0 +1,4 @@
+select * from mb_services
+where name = 'FitGrid' and is_verified = true
+  and is_active = true
+and fitness_network_id = 1104
