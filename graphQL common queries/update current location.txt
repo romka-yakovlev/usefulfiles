@@ -1,0 +1,16 @@
+query 
+mutation ($input: UpdateCurrentLocationInput!) {
+  updateCurrentLocation(input: $input) {
+    user {
+      firstName
+    }
+  }
+}
+
+variables
+{
+  "input": {
+  "currentLatitude": 40.761301,
+  "currentLongitude": -73.975410
+  }  
+}

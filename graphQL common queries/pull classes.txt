@@ -1,0 +1,18 @@
+{
+  classesForBooking(useClientLocation: true, startTime: 1632862800) {
+    totalCount
+    edges {
+      node {
+        id 
+        name
+        booking {
+          actions {
+            name
+            serviceFee
+          }
+          status
+        }
+      }
+    }
+  }
+}

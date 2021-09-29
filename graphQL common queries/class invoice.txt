@@ -1,0 +1,12 @@
+{
+  classInvoice(groupClassSessionId: "R3JvdXBDbGFzc1Nlc3Npb24tNTU0NDU0Mg==") {
+    hasClassCredits
+    hasPremiumBookingCredits
+    lines {
+      title
+      type
+      amount
+    }
+    taxCalculationError
+  }
+}
