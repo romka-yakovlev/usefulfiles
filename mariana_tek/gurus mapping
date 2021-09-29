@@ -1,0 +1,16 @@
+select id,
+       mb_id,
+       first_name,
+       last_name,
+       email,
+       gender,
+       work_phone_number,
+       address,
+       city,
+       state,
+       postal_code,
+       bio,
+       image_url
+from gurus
+where fitness_network_id = 1361
+order by id desc

@@ -1,0 +1,3 @@
+select fn.name from subscriptions s
+join fitness_networks fn on s.fitness_network_id = fn.id
+where fn.is_active = true and plan_id = 21
