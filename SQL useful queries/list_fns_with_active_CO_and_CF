@@ -1,0 +1,8 @@
+select id,
+       name,
+       has_surveys_enabled,
+       is_task_list_enabled
+from fitness_networks
+where has_surveys_enabled = true and is_task_list_enabled = true
+and is_active = true
+order by id desc
