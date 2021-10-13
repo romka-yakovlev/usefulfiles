@@ -1,0 +1,8 @@
+select fn.id,
+       fn.name,
+       s.plan_id
+from fitness_networks fn
+join subscriptions s on fn.id = s.fitness_network_id
+where fn.is_active = true
+and plan_id = 18
+order by fn.id
