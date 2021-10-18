@@ -1,0 +1,9 @@
+select fn.id,
+       fn.name,
+       fn.contact_email
+from fitness_networks fn
+join locations l on fn.id = l.fitness_network_id
+where l.state = 'CA'
+and fn.is_active = true
+group by fn.id, fn.name, fn.contact_email
+order by fn.id
