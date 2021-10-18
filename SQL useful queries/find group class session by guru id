@@ -1,0 +1,5 @@
+select * from group_class_sessions
+join group_class_session_gurus gcsg on group_class_sessions.id = gcsg.group_class_session_id
+where guru_id = 122647874
+order by start_time desc
+limit 20
