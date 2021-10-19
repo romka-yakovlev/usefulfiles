@@ -1,4 +1,6 @@
 query 
+
+
 mutation ($input: UpdateCurrentLocationInput!) {
   updateCurrentLocation(input: $input) {
     user {
@@ -8,6 +10,8 @@ mutation ($input: UpdateCurrentLocationInput!) {
 }
 
 variables
+
+
 {
   "input": {
   "currentLatitude": 40.761301,
