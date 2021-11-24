@@ -1,0 +1,5 @@
+select count(*) as total, fn.id from locations
+join fitness_networks fn on locations.fitness_network_id = fn.id
+where fn.is_active = true
+group by fn.id
+order by total desc

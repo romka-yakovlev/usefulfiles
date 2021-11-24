@@ -1,0 +1,3 @@
+select * from survey_messages
+where location_id = 6196
+order by id desc
