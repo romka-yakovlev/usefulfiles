@@ -1,0 +1,10 @@
+select id,
+registration_finished_at,
+country,
+zip_code,
+region
+from client_accounts
+where region is null 
+and registration_finished_at is not null
+and country = 'United States of America'
+order by id desc
